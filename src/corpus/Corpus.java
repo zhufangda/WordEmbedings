@@ -1,3 +1,4 @@
+package corpus;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -156,7 +157,7 @@ public class Corpus {
 	 * a file donated by the argument
 	 * @param filePath The file path of corpus
 	 * **/
-	static Corpus corpusFactory(String filePath){
+	public static Corpus corpusFactory(String filePath){
 		Corpus corpus = new Corpus();
 		corpus.readFromFile(filePath);
 		return corpus;

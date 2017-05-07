@@ -1,3 +1,4 @@
+package corpus;
 /**
  * Signals that an attempt to find a word denoted by a specified string in corpus
  * has failed.

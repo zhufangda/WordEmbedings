@@ -7,6 +7,8 @@ import java.util.Locale.FilteringMode;
 
 import javax.imageio.stream.FileImageInputStream;
 
+import corpus.Vector;
+
 
 public class Utils {
 	static Map <String,Vector> getThoughtVectors(String filePath){

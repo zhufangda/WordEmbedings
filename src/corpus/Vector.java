@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+package corpus;
 
 /*** 
  * The vector Class represent a row vector and provides the fundamental vector operations.
