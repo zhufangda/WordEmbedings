@@ -1,0 +1,145 @@
+options {
+    LOOKAHEAD=2;FORCE_LA_CHECK=true;
+}
+
+PARSER_BEGIN(Main)
+package calculatrice;
+import java.util.logging.Level;
+import corpus.*;
+import java.util.logging.Logger;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Map.Entry;
+
+public class Main {
+     public static Corpus corpus;
+    public static int size;
+    public static Logger logger = LogUtils.getLogger("Test", Level.INFO);
+    public static void main(String[] args) throws ParseException{
+              if(args.length == 0){
+            System.out.println("You have to type the path of corpus as"
+                            + "a argument.");
+            System.exit(0);
+        }
+        
+        System.out.println("Importing the corpus.......");
+        Instant start = Instant.now();
+        corpus = Corpus.corpusFactory(args[0]);
+        Instant end = Instant.now();
+        Duration duration = Duration.between(start, end);
+        
+        
+        System.out.println("Corpus has been imported. Get " + corpus.getNbWord() 
+            + " words with " + duration.toMillis() + " ms.");
+
+        if(args.length ==3 && args[1].equals("-k")){
+            size = Integer.parseInt(args[2]);
+        }else{
+            size = 7;
+        }
+                System.out.println("Entrer un mot, notre application va imprimier"
+                            + " les " + size + " mots les plus similaires "
+                            + "d'après la mesure de similarité cosinus."
+                            + "\nVous pouvez aussi entrer un expression arithmétique."
+                            + "\nFor example,Londres + (France - Paris).");
+                            
+        Main parser = new Main(System.in);
+        while (true) {
+            try {
+                parser.parseOneLine();
+            } catch (Exception e) {
+                e.printStackTrace();
+                parser.ReInit(System.in);
+            }catch (Error e) {
+                System.err.println(e.getMessage());
+                parser.ReInit(System.in);
+            }
+        }
+    }
+
+}
+
+PARSER_END(Main)
+
+SKIP:
+{
+    " " | "\r" | "\t"
+}
+
+TOKEN:
+{
+    < WORD: ( <LETTRE> ) + ( (<LETTRE>)*)? >
+    |
+    < LETTRE:~["-","+","(",")","\n","\r","\t"," "]>
+    |
+    < EOL: "\n" >
+}
+
+void parseOneLine() throws WordNotFoundException :
+{
+    Vector a;
+    StringBuilder output = new StringBuilder();
+}
+{
+    a=expr() <EOL>  {
+      Instant start = Instant.now();
+      java.util.List<Entry<Double, String>> resultat = corpus.getSimilarWord(a,size);
+      for (Entry<Double, String> entry : resultat) {
+        System.out.println("\t" + entry.getKey() + "\t" + entry.getValue());
+        output.append("\u005ct" + entry.getKey() + "\u005ct" + entry.getValue() + "\n");
+    }
+    
+     Instant end = Instant.now();
+     Duration duration = Duration.between(start, end);
+     System.out.println("Use time: " + + duration.toMillis() + " ms.");
+     output.append("Use time: " + + duration.toMillis() + " ms.");
+     logger.info(output.toString());
+    }
+
+    |
+    <EOL>
+    |
+    <EOF>   { System.exit(-1); }
+}
+
+
+
+Vector expr() throws WordNotFoundException:
+{
+    Vector a;
+    Vector b;
+}
+{
+    a=unary()
+    (
+      LOOKAHEAD(2)
+        "+" b=expr()    {a = a.addition(b);}
+        |
+        "-" b=expr()    {a = a.soustraction(b);}
+    )*
+        { return a;}
+}
+
+Vector unary() throws WordNotFoundException:
+{
+    Vector a;
+}
+{
+    "-" a=element()     {return a.multiplication(-1);}
+    |
+    a=element()         {return a;}
+}
+
+Vector element() throws WordNotFoundException:
+{
+    Token t;
+    Vector a;
+}
+{
+    t=<WORD>    {
+      Logger logger = LogUtils.getLogger("Test", Level.INFO);
+      logger.info("Input:" + t.toString());
+      return corpus.getVector(t.toString());}
+    |
+    "(" a=expr() ")"    {return a;}
+}
