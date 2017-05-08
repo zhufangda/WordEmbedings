@@ -26,7 +26,26 @@ import java.util.TreeMap;
 
 public class Corpus {
 	Map<String, Vector> vecDir;
-	
+    private int nbWord = 0; 
+    
+    /***
+     * Gets the number of words in the corpus
+     * @return the number of words in the corpus
+     * **/
+    public int getNbWord() {
+        return nbWord;
+    }
+    
+    /**
+     * Returns the dimension of the vector representing the word
+     * @return the dimension of vector
+     * **/
+    public int getDimension() {
+        return dimension;
+    }
+
+    private int dimension = 0;
+    
 	private Corpus() {
 		vecDir = new HashMap<>();
 	}
@@ -48,7 +67,6 @@ public class Corpus {
 	 * **/
 	private void readFromFile(String filePath){
 		File file = new File(filePath);
-		int nbWord = 0, dimension = 0;
 		
 		/***
 		 * This method allow us to read the vectors form 
@@ -63,7 +81,6 @@ public class Corpus {
 			 * and the dimension of the vector.***/
 			nbWord = Integer.parseInt(tmp[0]);
 			dimension = Integer.parseInt(tmp[1]);
-			System.out.println("nbWord:" + nbWord + "\ndimension:" + dimension);
 			
 			/*** get all vectors in the file vecs50**/
 			Vector tmpVector = null;
@@ -86,7 +103,7 @@ public class Corpus {
 	}
 	
     /**
-     * Returns the vector to which the specified word is mapped,
+     * Returns the vector to which the specified word is mapped.
      *
      * <p>More formally, if this corpus contains a mapping from a word
      * to a vector, then this method returns its vector; otherwise
