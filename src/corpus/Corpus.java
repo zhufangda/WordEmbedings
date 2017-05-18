@@ -4,12 +4,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.TreeMap;
+import java.nio.file.Paths;
 /**
  * An object that maps all the word French to vector.
  * A <tt>Corpus</tt> cannot contain duplicate words;
@@ -25,6 +30,7 @@ import java.util.TreeMap;
  */
 
 public class Corpus {
+    
 	Map<String, Vector> vecDir;
     private int nbWord = 0; 
     
@@ -65,7 +71,7 @@ public class Corpus {
 	/*** Gets the corpus from the file vecs50
 	 * @param filePath the file path of the vecs50
 	 * **/
-	private void readFromFile(String filePath){
+	public void readFromFile(String filePath){
 		File file = new File(filePath);
 		
 		/***
@@ -102,6 +108,46 @@ public class Corpus {
 		}
 	}
 	
+	   public void readFromFileIo(String filePath){
+
+	        Map<String, Vector> newvec = new ConcurrentHashMap<>();
+	        /***
+	         * This method allow us to read the vectors form 
+	         * the file vecs50
+	         * ***/
+	        Path path = Paths.get(filePath);
+
+	           
+	        try (BufferedReader rdr = Files.newBufferedReader(Paths.get(filePath),
+	                Charset.defaultCharset())) {
+	             
+	            String input = rdr.readLine();
+	             String[] tmp = input.split(" ");
+	                
+	            /***Get the number of words in file vecs50 
+	             * and the dimension of the vector.***/
+	            nbWord = Integer.parseInt(tmp[0]);
+	            dimension = Integer.parseInt(tmp[1]);
+	            
+	            /*** get all vectors in the file vecs50**/
+	            Vector tmpVector = null;
+	            String word = null;
+	            for(String line; (line = rdr.readLine()) != null;){ 
+	                tmpVector = new Vector(50);             
+	                tmp = line.split(" ");
+	                word = tmp[0];
+	                for (int j=0; j<dimension ;j++) {
+	                    tmpVector.setComponent(j,Double.parseDouble(tmp[j+1]));;
+	                }
+	                
+	                newvec.put(word, tmpVector);
+	            }
+	        } catch (FileNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
     /**
      * Returns the vector to which the specified word is mapped.
      *
