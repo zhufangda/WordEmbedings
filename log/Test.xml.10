@@ -1,0 +1,51 @@
+May 18, 2017 6:16:24 PM calculatrice.Main element
+INFO: Input:a
+May 18, 2017 6:16:25 PM calculatrice.Main element
+INFO: Input:b
+May 18, 2017 6:16:25 PM calculatrice.Main parseOneLine
+INFO: 	0.5464731774919749	avait
+	0.5437170866549969	a
+	0.5434845347131216	fut
+	0.5108345445914659	sera
+	0.508066743227048	demeurera
+	0.5076460363229155	restera
+	0.4877101587063198	cessa
+Use time: 120 ms.
+May 18, 2017 6:16:41 PM calculatrice.Main element
+INFO: Input:a
+May 18, 2017 6:16:41 PM calculatrice.Main element
+INFO: Input:b
+May 18, 2017 6:16:50 PM calculatrice.Main element
+INFO: Input:a
+May 18, 2017 6:16:50 PM calculatrice.Main element
+INFO: Input:b
+May 18, 2017 6:16:50 PM calculatrice.Main parseOneLine
+INFO: 	0.5464731774919749	avait
+	0.5437170866549969	a
+	0.5434845347131216	fut
+	0.5108345445914659	sera
+	0.508066743227048	demeurera
+	0.5076460363229155	restera
+	0.4877101587063198	cessa
+Use time: 150 ms.
+May 18, 2017 6:17:03 PM calculatrice.Main element
+INFO: Input:a
+May 18, 2017 6:17:03 PM calculatrice.Main element
+INFO: Input:b
+May 18, 2017 6:17:03 PM calculatrice.Main element
+INFO: Input:c
+May 18, 2017 6:17:12 PM calculatrice.Main element
+INFO: Input:a
+May 18, 2017 6:17:12 PM calculatrice.Main element
+INFO: Input:b
+May 18, 2017 6:17:12 PM calculatrice.Main element
+INFO: Input:c
+May 18, 2017 6:17:12 PM calculatrice.Main parseOneLine
+INFO: 	0.7912693046118086	a
+	0.7637151823439573	avait
+	0.7123980038846601	aura
+	0.7117240959654219	aurait
+	0.7114897084391701	sera
+	0.6821314811398699	fut
+	0.6715689809203339	eût
+Use time: 101 ms.
